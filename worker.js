@@ -32,12 +32,71 @@ function parseFrontmatter(md) {
   return { meta, body: md.slice(match[0].length) };
 }
 
+function isTableSeparator(line) {
+  const parts = line.split('|').slice(1, -1).map(c => c.trim());
+  return parts.length > 0 && parts.every(p => /^[:-]+$/.test(p));
+}
+
+function parseTable(lines) {
+  const headerCells = lines[0].split('|').slice(1, -1).map(c => c.trim());
+  const bodyRows = lines.slice(2).map(line => line.split('|').slice(1, -1).map(c => c.trim()));
+
+  let html = '<table><thead><tr>';
+  headerCells.forEach(h => {
+    html += `<th>${escapeHtml(h)}</th>`;
+  });
+  html += '</tr></thead><tbody>';
+  bodyRows.forEach(row => {
+    html += '<tr>';
+    row.forEach(cell => {
+      html += `<td>${escapeHtml(cell)}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  return html;
+}
+
+function extractTables(md) {
+  const lines = md.split('\n');
+  const tables = [];
+  const out = [];
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    const trimmed = line.trim();
+    if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+      let tableLines = [line];
+      let j = i + 1;
+      while (j < lines.length) {
+        const t = lines[j].trim();
+        if (t.startsWith('|') && t.endsWith('|')) {
+          tableLines.push(lines[j]);
+          j++;
+        } else {
+          break;
+        }
+      }
+      if (tableLines.length >= 2 && isTableSeparator(tableLines[1])) {
+        tables.push(parseTable(tableLines));
+        out.push(`__TABLE_${tables.length - 1}__`);
+        i = j;
+        continue;
+      }
+    }
+    out.push(line);
+    i++;
+  }
+  return { text: out.join('\n'), tables };
+}
+
 function mdToHtml(md, slug) {
   const { meta, body } = parseFrontmatter(md);
   const title = meta.title || slug || 'Untitled';
   const date = meta.date || '';
 
-  let html = escapeHtml(body);
+  const { text: bodyWithPlaceholders, tables } = extractTables(body);
+  let html = escapeHtml(bodyWithPlaceholders);
 
   // code blocks
   html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (m, lang, code) => {
@@ -87,8 +146,12 @@ function mdToHtml(md, slug) {
     block = block.trim();
     if (!block) return '';
     if (/^<(h\d|pre|ul|ol|blockquote|li)/.test(block)) return block;
+    if (/^__TABLE_\d+__$/.test(block)) return block;
     return `<p>${block.replace(/\n/g, '<br>')}</p>`;
   }).join('\n');
+
+  // restore tables
+  html = html.replace(/__TABLE_(\d+)__/g, (m, idx) => tables[idx]);
 
   const dateLine = date ? `<p class="date">${escapeHtml(date)}</p>` : '';
 
@@ -113,6 +176,9 @@ pre code { background: none; padding: 0; }
 blockquote { border-left: 4px solid var(--accent); margin: 0; padding-left: 1rem; color: var(--muted); }
 img { max-width: 100%; height: auto; }
 ul, ol { padding-left: 1.5rem; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { border: 1px solid #ddd; padding: .5rem .75rem; text-align: left; }
+th { background: var(--code); font-weight: 600; }
 footer { margin-top: 4rem; border-top: 1px solid #ddd; padding-top: 1rem; font-size: .85rem; color: var(--muted); text-align: center; }
 </style>
 </head>

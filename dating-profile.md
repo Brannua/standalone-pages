@@ -12,7 +12,7 @@
 
 * 我籍贯河南，户籍天津，有在津定居的计划。
 
-<img src="https://s41.ax1x.com/2026/10/21/pnBYXqJ.jpg" alt="个人照片" width="240" style="max-width: 80%; height: auto;">
+<img src="https://s41.ax1x.com/2026/10/21/pnBYXqJ.jpg" alt="个人照片" width="300" style="max-width: 80%; height: auto;">
 
 ## 【性格和生活习惯】
 

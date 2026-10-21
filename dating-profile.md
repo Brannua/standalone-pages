@@ -52,4 +52,4 @@
 
 我的微信号：ivorymoon11
 
-<img width="820" height="1219" alt="f77b2e1204f7a4bb6d22e74f61954c2e" src="https://github.com/user-attachments/assets/1fd0f7a8-2a45-4960-a49f-6da6e9c6359c" />
+<img src="https://s41.ax1x.com/2026/10/21/pnBYH2T.jpg" alt="微信二维码" width="240" style="max-width: 80%; height: auto;">

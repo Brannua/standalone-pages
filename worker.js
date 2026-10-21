@@ -137,7 +137,14 @@ async function fallbackToHexo(request) {
   const url = new URL(request.url);
   url.hostname = 'brannua.github.io';
   url.protocol = 'https:';
-  return fetch(url, request);
+  const originalHost = new URL(request.url).hostname;
+  const headers = new Headers(request.headers);
+  headers.set('Host', originalHost);
+  return fetch(url, {
+    method: request.method,
+    headers: headers,
+    body: request.body
+  });
 }
 
 async function handleRequest(request) {

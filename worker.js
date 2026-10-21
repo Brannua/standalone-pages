@@ -120,7 +120,7 @@ footer { margin-top: 4rem; border-top: 1px solid #ddd; padding-top: 1rem; font-s
 <h1>${escapeHtml(title)}</h1>
 ${dateLine}
 ${html}
-<footer>發布於 <a href="https://liupj.top">liupj.top</a></footer>
+<footer>发布于 <a href="https://liupj.top">liupj.top</a></footer>
 </body>
 </html>`;
 }

@@ -1,30 +1,30 @@
 # standalone-pages
 
-這裡存放 [liupj.top](https://liupj.top) 的獨立 markdown 頁面，與 hexo 部落格完全分開。
+这里存放 [liupj.top](https://liupj.top) 的独立 markdown 页面，与 hexo 博客完全分开。
 
-## 發布方式
+## 发布方式
 
-1. 在倉庫根目錄新增一個 `.md` 檔案，例如 `intro.md`
+1. 在仓库根目录新增一个 `.md` 文件，例如 `intro.md`
 2. 直接 push 到 main 分支
-3. 等待約 5 分鐘，即可透過 `https://liupj.top/intro` 訪問
+3. 等待约 5 分钟，即可通过 `https://liupj.top/intro` 访问
 
-## 路徑對應
+## 路径对应
 
-| 檔案路徑 | 網址 |
+| 文件路径 | 网址 |
 |---------|------|
 | `intro.md` | `https://liupj.top/intro` |
 | `about.md` | `https://liupj.top/about` |
 | `notes/hello.md` | `https://liupj.top/notes/hello` |
 
-## 可選 frontmatter
+## 可选 frontmatter
 
 ```markdown
 ---
-title: 頁面標題
+title: 页面标题
 date: 2026-10-21
 ---
 
 # 正文
 ```
 
-不寫 frontmatter 也沒關係，會自動使用檔案名作為標題。
+不写 frontmatter 也没关系，会自动使用文件名作为标题。

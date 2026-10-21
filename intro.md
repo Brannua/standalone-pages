@@ -1,14 +1,14 @@
 ---
-title: 關於我
+title: 关于我
 date: 2026-10-21
 ---
 
 # 你好
 
-這是我的獨立頁面測試，未來會透過 [liupj.top/intro](https://liupj.top/intro) 訪問。
+这是我的独立页面测试，未来会通过 [liupj.top/intro](https://liupj.top/intro) 访问。
 
-## 為什麼獨立出來
+## 为什么独立出来
 
-- 這些頁面不屬於 hexo 部落格
-- 想快速發布一些臨時或專題內容
-- 不想污染 hexo 的原始碼倉庫
+- 这些页面不属于 hexo 博客
+- 想快速发布一些临时或专题内容
+- 不想污染 hexo 的源码仓库

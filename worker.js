@@ -90,12 +90,22 @@ function extractTables(md) {
   return { text: out.join('\n'), tables };
 }
 
+function extractImages(md) {
+  const images = [];
+  const text = md.replace(/<img[^>]+>/gi, match => {
+    images.push(match);
+    return `__IMG_${images.length - 1}__`;
+  });
+  return { text, images };
+}
+
 function mdToHtml(md, slug) {
   const { meta, body } = parseFrontmatter(md);
   const title = meta.title || slug || 'Untitled';
   const date = meta.date || '';
 
-  const { text: bodyWithPlaceholders, tables } = extractTables(body);
+  const { text: bodyWithTablePlaceholders, tables } = extractTables(body);
+  const { text: bodyWithPlaceholders, images } = extractImages(bodyWithTablePlaceholders);
   let html = escapeHtml(bodyWithPlaceholders);
 
   // code blocks
@@ -146,11 +156,12 @@ function mdToHtml(md, slug) {
     block = block.trim();
     if (!block) return '';
     if (/^<(h\d|pre|ul|ol|blockquote|li)/.test(block)) return block;
-    if (/^__TABLE_\d+__$/.test(block)) return block;
+    if (/^__(TABLE|IMG)_\d+__$/.test(block)) return block;
     return `<p>${block.replace(/\n/g, '<br>')}</p>`;
   }).join('\n');
 
-  // restore tables
+  // restore images and tables
+  html = html.replace(/__IMG_(\d+)__/g, (m, idx) => images[idx]);
   html = html.replace(/__TABLE_(\d+)__/g, (m, idx) => tables[idx]);
 
   const dateLine = date ? `<p class="date">${escapeHtml(date)}</p>` : '';

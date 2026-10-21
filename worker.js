@@ -101,7 +101,8 @@ function extractImages(md) {
 
 function mdToHtml(md, slug) {
   const { meta, body } = parseFrontmatter(md);
-  const title = meta.title || slug || 'Untitled';
+  const title = meta.title || '';
+  const pageTitle = title || slug || 'Untitled';
   const date = meta.date || '';
 
   const { text: bodyWithTablePlaceholders, tables } = extractTables(body);
@@ -171,7 +172,7 @@ function mdToHtml(md, slug) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHtml(title)}</title>
+<title>${escapeHtml(pageTitle)}</title>
 <style>
 :root { --bg:#fafafa; --text:#333; --accent:#3BBC69; --muted:#777; --code:#f4f4f4; }
 @media (prefers-color-scheme: dark) { :root { --bg:#1a1a1a; --text:#e5e5e5; --muted:#999; --code:#2a2a2a; } }
@@ -194,10 +195,9 @@ footer { margin-top: 4rem; border-top: 1px solid #ddd; padding-top: 1rem; font-s
 </style>
 </head>
 <body>
-<h1>${escapeHtml(title)}</h1>
+${title ? `<h1>${escapeHtml(title)}</h1>` : ''}
 ${dateLine}
 ${html}
-<footer>发布于 <a href="https://liupj.top">liupj.top</a></footer>
 </body>
 </html>`;
 }

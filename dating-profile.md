@@ -53,5 +53,3 @@
 ## 【联系方式】
 
 我的微信号：ivorymoon11
-
-<img src="https://s41.ax1x.com/2026/10/21/pnBYH2T.jpg" alt="微信二维码" width="240" style="max-width: 80%; height: auto;">
